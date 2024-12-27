@@ -3,11 +3,13 @@ package app
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/sablierapp/sablier/app/discovery"
 	"github.com/sablierapp/sablier/app/providers/docker"
 	"github.com/sablierapp/sablier/app/providers/dockerswarm"
 	"github.com/sablierapp/sablier/app/providers/kubernetes"
-	"os"
+	"github.com/sablierapp/sablier/app/providers/proxmox"
 
 	"github.com/sablierapp/sablier/app/http"
 	"github.com/sablierapp/sablier/app/instance"
@@ -135,6 +137,8 @@ func NewProvider(config config.Provider) (providers.Provider, error) {
 		return docker.NewDockerClassicProvider()
 	case "kubernetes":
 		return kubernetes.NewKubernetesProvider(config.Kubernetes)
+	case "proxmox":
+		return proxmox.NewProxmoxProvider()
 	}
 	return nil, fmt.Errorf("unimplemented provider %s", config.Name)
 }
